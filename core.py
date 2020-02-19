@@ -1,5 +1,6 @@
 import struct, zlib, os
 from PIL import Image
+import time
 
 tiles = []
 colorarray = [
@@ -103,10 +104,12 @@ def imgtomsch(imgfile, name, save_location, dither, transparency_treshold):
         data.writeByte(0)
 
     print("Tile data written")
+    
+    filename = str(int(1000 * time.time())) + ".msch"
 
     os.chdir(os.path.expandvars(save_location))
-    file = open(name + ".msch", "wb")
+    file = open(filename, "wb")
     file.write(b"msch\x00"+zlib.compress(data.data))
     file.close()
 
-    print("Successfully saved {0} ".format(name + ".msch"))
+    print("Successfully saved {0} ".format(filename))
